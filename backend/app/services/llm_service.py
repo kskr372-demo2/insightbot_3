@@ -28,9 +28,6 @@ class LLMService:
             model=settings.gemini_model,
             contents=prompt,
         )
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print(prompt)
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
         
         return response.text

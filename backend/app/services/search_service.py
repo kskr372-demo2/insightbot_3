@@ -10,6 +10,7 @@ class SearchService:
     def ask(
         self,
         question: str,
+        document_id: str
     ):
 
         history = memory_service.get_history()
