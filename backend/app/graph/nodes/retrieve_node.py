@@ -7,7 +7,7 @@ class RetrieveNode:
         self,
         embedding_service,
         vector_service,
-        citation_service
+        citation_service,
     ):
         self.embedding_service = embedding_service
         self.vector_service = vector_service
@@ -17,16 +17,34 @@ class RetrieveNode:
 
         question = state["question"]
 
-        # Generate embedding
-        query_embedding = self.embedding_service.generate_embedding(question)
+        document_id = state.get("document_id")
 
-        # Search vector DB
-        documents = self.vector_service.search(query_embedding)
+        # Generate query embedding
+        query_embedding = self.embedding_service.create_query_embedding(
+            question
+        )
 
-        # Generate citations
-        citations = self.citation_service.generate(documents)
+        # Search ChromaDB
+        results = self.vector_service.search(
+            query_embedding=query_embedding,
+            document_id=document_id,
+        )
+
+        # documents = results["documents"][0]
+        documents = results.get("documents", [[]])[0]
+        metadata = results.get("metadatas", [[]])[0]
+
+        # metadata = results["metadatas"][0]
+
+        context = "\n\n".join(documents) if documents else ""
+
+        citations = self.citation_service.build_citations(
+            metadata
+        )
 
         return {
             "documents": documents,
-            "citations": citations
+            "metadata": metadata,
+            "context": context,
+            "citations": citations,
         }

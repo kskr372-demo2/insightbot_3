@@ -58,7 +58,7 @@ class VectorService:
         query_embedding,
         top_k: int = 3,
         document_id: str | None = None,
-    ):
+    )-> dict:
 
         query = {
             "query_embeddings": [query_embedding.tolist()],

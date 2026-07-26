@@ -1,8 +1,5 @@
-from app.services.citation_service import citation_service
+from app.graph import graph
 from app.services.memory_service import memory_service
-from app.services.embedding_service import embedding_service
-from app.services.llm_service import llm_service
-from app.services.vector_service import vector_service
 
 
 class SearchService:
@@ -10,29 +7,16 @@ class SearchService:
     def ask(
         self,
         question: str,
-        document_id: str
+        document_id: str| None = None,
     ):
 
-        history = memory_service.get_history()
-        embedding = embedding_service.create_query_embedding(
-            question
+        result = graph.invoke(
+            {
+                "question": question,
+                "document_id": document_id,
+            }
         )
 
-        results = vector_service.search(
-            embedding,document_id=document_id,
-        )
-
-        documents = results["documents"][0]
-        metadata = results["metadatas"][0]
-        citations = citation_service.build_citations(metadata)
-
-        context = "\n\n".join(documents)
-        
-        answer = llm_service.generate_answer(
-            question=question,
-            context=context,
-            conversation_history=history,
-        )
         memory_service.add_message(
             "user",
             question,
@@ -40,15 +24,16 @@ class SearchService:
 
         memory_service.add_message(
             "assistant",
-            answer,
+            result["answer"],
         )
 
         return {
             "question": question,
-            "answer": answer,
-            "citations": citations,
-            "context": documents,
+            "answer": result["answer"],
+            "citations": result.get("citations", []),
+            "context": result.get("documents", []),
         }
+    
 
 
 search_service = SearchService()

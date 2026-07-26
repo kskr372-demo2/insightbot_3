@@ -10,7 +10,7 @@ from app.services.search_service import search_service
 def search(
     query: str,
 ):
-
+    print("search step going")
     result = search_service.ask(query)
 
     return ApiResponse(
