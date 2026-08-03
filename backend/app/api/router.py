@@ -5,6 +5,7 @@ from app.api.debug import router as debug_router
 from app.core.settings import settings
 from app.api.upload import router as upload_router
 from app.api.search import router as search_router
+from app.api.approval import router as approval_router
 api_router = APIRouter(prefix=settings.api_prefix)
 
 api_router.include_router(
@@ -25,4 +26,9 @@ api_router.include_router(
 api_router.include_router(
     search_router,
     tags=["Search"],
+)
+
+api_router.include_router(
+    approval_router,
+    tags=["Approval"],
 )

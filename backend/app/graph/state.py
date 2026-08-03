@@ -23,6 +23,15 @@ class InsightBotState(TypedDict, total=False):
     intent: str
 
     summary: str
-
+    security_result: str
     translated_answer: str
-    intent: str
+
+    selected_tool: str
+
+    requires_approval: bool
+    
+    approved: bool
+    
+    selected_agent: str
+    agent_result: str
+    tool_input: str

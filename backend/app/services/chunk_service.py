@@ -16,7 +16,7 @@ class ChunkService:
     ):
         chunks = []
         for page in pages:
-            print(pages)
+            # print(pages)
             page_chunks = self.splitter.split_text(page["text"])
             for chunk in page_chunks:
                 chunks.append(

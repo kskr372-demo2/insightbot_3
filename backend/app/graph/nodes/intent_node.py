@@ -1,3 +1,4 @@
+from app.services.intent_service import intent_service
 from app.graph.state import InsightBotState
 
 
@@ -5,24 +6,10 @@ class IntentNode:
 
     def __call__(self, state: InsightBotState):
 
-        question = state["question"].lower()
-
-        greetings = [
-            "hi",
-            "hello",
-            "hey",
-            "good morning",
-            "good evening",
-            "thank you",
-            "thanks",
-            "who are you",
-        ]
-
-        if any(word in question for word in greetings):
-            return {
-                "intent": "general"
-            }
+        intent = intent_service.classify(
+            state["question"]
+        )
 
         return {
-            "intent": "document"
+            "intent": intent
         }

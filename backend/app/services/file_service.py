@@ -68,17 +68,17 @@ class FileService:
         embeddings=embeddings,
                                     )
 
-        print(f"Total Embeddings: {len(embeddings)}")
+        # print(f"Total Embeddings: {len(embeddings)}")
 
-        print(f"Embedding Dimension: {len(embeddings[0])}")
+        # print(f"Embedding Dimension: {len(embeddings[0])}")
 
-        print(f"Total Chunks: {len(chunks)}")
-        print("#########################################")
-        print(f"Chunk 1: {chunks[0]}")
-        print("#########################################")
-        print("****************************************")
-        print(chunks[1])  
-        print("****************************************")      
+        # print(f"Total Chunks: {len(chunks)}")
+        # print("#########################################")
+        # print(f"Chunk 1: {chunks[0]}")
+        # print("#########################################")
+        # print("****************************************")
+        # print(chunks[1])  
+        # print("****************************************")      
         return {
             "file_name": new_name,
             "original_name": file.filename,
