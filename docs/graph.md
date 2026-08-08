@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
 graph/
 │
 ├── state.py
@@ -29,7 +42,13 @@ Level 3
 Parallel Execution
 Retry Mechanisms
 Error Handling
-Human-in-the-Loop
+Human-in-the-Loop:
+    Because once we move to Human-in-the-Loop, we'll introduce:
+
+            Checkpointer
+            Interrupt
+            Resume
+            Approval Workflow
 
 Level 4
 Multi-Agent Systems
