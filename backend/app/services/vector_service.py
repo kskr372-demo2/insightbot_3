@@ -49,7 +49,8 @@ class VectorService:
         self.collection.add(
             ids=chunk_ids,
             documents=documents,
-            embeddings=embeddings.tolist(),
+            # embeddings=embeddings.tolist(),sentence transfooformer
+            embeddings=embeddings,#google embedding
             metadatas=metadata,
         )
 
@@ -61,7 +62,8 @@ class VectorService:
     )-> dict:
 
         query = {
-            "query_embeddings": [query_embedding.tolist()],
+            # "query_embeddings": [query_embedding.tolist()],
+            "query_embeddings": [query_embedding],
             "n_results": top_k,
         }
 
