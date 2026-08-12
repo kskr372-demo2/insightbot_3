@@ -103,3 +103,13 @@ jobs:
         run: |
           docker push \
             asia-south1-docker.pkg.dev/insightbot-505009/insightbot/insightbot-backend:${{ github.sha }}
+            # --------------------------------------------------
+      # 11. Deploy to Cloud Run
+      # --------------------------------------------------
+      - name: Deploy to Cloud Run
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: insightbot-backend
+          region: asia-south1
+          image: asia-south1-docker.pkg.dev/insightbot-505009/insightbot/insightbot-backend:${{ github.sha }}

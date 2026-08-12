@@ -171,3 +171,37 @@ Push Docker image ← NEW
     ↓
 Artifact Registry
 
+##############################################################
+
+| Cloud                  | Secret management service |
+| ---------------------- | ------------------------- |
+| **Google Cloud (GCP)** | **Secret Manager**        |
+| **AWS**                | **AWS Secrets Manager**   |
+| **Azure**              | **Azure Key Vault**       |
+| **Kubernetes**         | Kubernetes Secrets*       |
+| **HashiCorp**          | HashiCorp Vault           |
+
+#########################################################################
+One important distinction
+
+There are now two service accounts involved:
+
+GitHub Actions Service Account
+insightbot-github
+        │
+        ├── pushes image
+        └── deploys Cloud Run
+
+Cloud Run Runtime Service Account
+        │
+        ├── runs your FastAPI container
+        └── reads Gemini secret
+
+((((roles/run.admin
+    ↓
+"GitHub Actions is allowed to manage Cloud Run."
+
+roles/iam.serviceAccountUser
+    ↓
+"GitHub Actions is allowed to deploy the service using
+the Cloud Run runtime service account."))))
