@@ -1,0 +1,44 @@
+name: InsightBot CD
+
+on:
+  workflow_run:
+    workflows:
+      - InsightBot CI
+    types:
+      - completed
+    branches:
+      - master
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: insightbot-production
+      cancel-in-progress: false
+
+    steps:
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: insightbot-505009
+          workload_identity_provider: projects/971186642530/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: insightbot-github@insightbot-505009.iam.gserviceaccount.com
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: insightbot-backend
+          region: asia-south1
+          image: asia-south1-docker.pkg.dev/insightbot-505009/insightbot/insightbot-backend:${{ github.event.workflow_run.head_sha }}
+
+      - name: Show Cloud Run URL
+        run: |
+          echo "Cloud Run URL: ${{ steps.deploy.outputs.url }}"
